@@ -1,22 +1,22 @@
-Si5351 Library for avr-gcc on ATtiny Microcontrollers
-=====================================================
-This is a basic library for the Si5351 series of clock generator ICs from [Silicon Labs](http://www.silabs.com) for the avr-gcc development environment. It will allow you to control the Si5351 with an AVR ATtiny microcontroller with a USI peripheral module and preferably at least 8 kB of flash memory, without depending on the proprietary ClockBuilder software from Silicon Labs.
+Si5351 Library for gcc on ATSAMD21 Microcontrollers
+===================================================
+This is a basic library for the Si5351 series of clock generator ICs from [Silicon Labs](http://www.silabs.com) for the gcc development environment with the Atmel Software Framework. It will allow you to control the Si5351 with an Atmel ATSAMD21 microcontroller, without depending on the proprietary ClockBuilder software from Silicon Labs.
 
 This library is focused towards usage in RF/amateur radio applications, but it may be useful in other cases. However, keep in mind that coding decisions are and will be made with those applications in mind first, so if you need something a bit different, please do fork this repository. Also, since the Si5351A3 version is the one which seems most useful in amateur radio applications, this is where the current development will be focused. Once the Si5351A3 has a decent and mature feature set, hopefully we will be able to turn to the 8-output version, and perhaps even the B and C variants.
 
 Hardware Requirements and Setup
 -------------------------------
-An 8-bit AVR ATtiny microcontroller with the USI peripheral is required for this library. The code size of the library, compiled with a simple program to set the output frequency on all three clock outputs of a Si5351A3 is 3826 bytes (using avr-gcc version 4.8.2), therefore it is best used with a microcontroller with at least 8 kB of flash memory.
+An Atmel ATSAMD21 microcontroller is required for this library. The code size of the library, compiled with a simple program to set the output frequency on all three clock outputs of a Si5351A3 is 7288 bytes (using gcc-arm-none-eabi from [Terry Guo](https://launchpad.net/~terry.guo/+archive/ubuntu/gcc-arm-embedded)).
 
 The Si5351 is a +3.3 V only part, so if you are not using a +3.3 V microcontroller, be sure you have some kind of level conversion strategy.
 
-Wire the SDA and SCL pins of the Si5351 to the corresponding pins on the AVR. Since the I2C interface is set to 400 kHz, use 4.7 k&Omega; pullup resistors from +3.3 V to the SDA and SCL lines.
+Wire the SDA and SCL pins of the Si5351 to the corresponding pins on the ATSAMD21. The library uses the SERCOM2 module (look for the SERCOM2 pins under the SERCOM-ALT listing of the pin multiplexer assigments in the datasheet). Since the I2C interface is set to 400 kHz, use 4.7 k&Omega; pullup resistors from +3.3 V to the SDA and SCL lines.
 
 Connect a 25 MHz or 27 MHz crystal with a load capacitance of 6, 8, or 10 pF to the Si5351 XA and XB pins. Locate the crystal as close to the Si5351 as possible and keep the traces as short as possible. Please use a SMT crystal. A crystal with leads will have too much stray capacitance.
 
 Usage
 -----
-Include the si5351-avr-tiny-minimal.c, si5351-avr-tiny-minimal.h, USI_TWI_Master.c, and USI_TWI_Master.h files into your avr-gcc project as you would with any other standard project.
+Include the si5351-samd21-minimal.c and si5351-samd21-minimal.h files into your gcc project as you would with any other standard project, along with the Atmel Software Framework (specifically the SERCOM I2C polled master library).
 
 The functions of the library are documented in the code. It should be fairly self-explanatory, but here's a very short introduction.
 
